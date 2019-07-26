@@ -1,0 +1,49 @@
+Comercials: 
+	- Activitat
+		- Optimitzar visites client
+				CRM: visual basic 
+				Google Calendar: visits comercial/visita cortesia/oferta: comments
+		- Visualitzar clients en mapa filtres comercial/sector/ranquing client
+		- Informix
+		- Nou client
+		
+MaqCenter:
+	Clientes:
+		Real:
+			ABC (ranking)
+		Potencial:
+			ABC (ranking)
+		Baja: ignora
+		
+	Num comerciales 10
+		Por zona geográfica: Codi postal (polígons)
+			Agente y Subagente
+		Asignado a delegacion de Maqcenter
+	Num Clients: 1300 reals (8000 no existente)
+	Un sector por cliente
+		Sectors: Automòbil, Aeroespacial, Molde/Matriz, Mecanizado general, Energía
+
+Admin
+Geoloc de cada client per comercial / sector / ABC -> Llistar?
+
+Comercials
+	Registrar activitat comercial per cada client
+		Crea un event calendario: iré a vistar a Client Pepito tal dia a tal hora
+		Al final visita: reporte de la visita, interés, marcas
+		Posibilitat visitas recurrentes
+		Tipos visitas: persentación ofertas, visitas cortesía
+
+Iternacionalització
+		
+Usuari:
+	Admin: Todo (informátic)
+	Dirección: Consultar tot
+	Comercial: Només veu lo seu. No piede generar listados
+
+Llistar clients sectoritzat
+
+Extra: Calendario vacaciones
+		
+Plataforma maquinaria segona ma 
+
+maqcenter.com

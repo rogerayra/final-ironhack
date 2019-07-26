@@ -1,0 +1,49 @@
+Wednesday
+	Customer: routes and controllers DONE
+	First draft Customers screeen with name and sector filtering DONE
+
+Thursday
+	Athentication: 
+		- Login OK
+		- Signup
+		- Logout OK
+
+	Customer:
+		- New
+		- Detail / Update:
+			- Delete
+	
+	
+Friday
+	CONTEXT
+	UPDATES ALL FIELDS
+	
+	Visits: model, routes and controllers
+	First draft Visits screen with name and sector filtering
+	Google Calendar integration
+	Visit:
+		- New + Google Calendar
+		- Detail
+		- Update + Google Calendar
+		- Delete + Google Calendar
+		- Once visit is passed: 
+				- Reminder to write report
+				- Report form:
+					- Create / Update
+
+Saturday
+	Navbar 
+			- Profile:
+			- Detail / Update
+			- Delete
+	Styles
+	Pretty filters
+	Mapbox clustering
+	Geometries
+	Review with Albert / Marta
+  Visit: Report
+  Visits views
+
+Sunday
+	Internationalization
+	Validations
