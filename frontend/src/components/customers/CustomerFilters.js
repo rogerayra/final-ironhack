@@ -1,7 +1,29 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import StateServices from '../../services/state.services'
 import { Input, Cascader } from 'antd'
 
-function CustomerFilters({ handleInput, handleCascader }) {
+function CustomerFilters({ handleInput, handleCascader, handleLocCascader }) {
+  const [geoStates, setGeoStates] = useState([])
+
+  useEffect(() => {
+    const stateServices = new StateServices()
+    stateServices
+      .getAll()
+      .then(({ data }) => {
+        const auxGeoStates = data.states.map(state => ({
+          value: `${state.category}-${state._id}`,
+          label: state.name,
+          children: state.subareas.map(subarea => ({
+            value: `${subarea.category}-${subarea._id}`,
+            label: subarea.name
+          }))
+        }))
+
+        setGeoStates(auxGeoStates)
+      })
+      .catch(err => console.error(err))
+  }, [])
+
   const sectorOptions = [
     {
       value: 'auto',
@@ -28,27 +50,26 @@ function CustomerFilters({ handleInput, handleCascader }) {
   return (
     <div className="filters">
       <div className="inputs">
-        <label>Cliente</label>
-        <Input type="text" name="customerName" placeholder="Buscar" onChange={handleInput} />
+        <Input type="text" name="customerName" placeholder="Nombre cliente" onChange={handleInput} />
       </div>
       <div className="inputs">
-        <label>Sector</label>
         <Cascader
           name="sector"
           options={sectorOptions}
+          placeholder={'Seleccione sector'}
           onChange={values => handleCascader(values, 'sector')}
           changeOnSelect
         />
       </div>
       <div className="inputs">
-        <label>Localización</label>
-        <select name="localización">
-          <option value="bcn">Barcelona</option>
-          <option value="mad">Madrid</option>
-          <option value="val">Valencia</option>
-          <option value="viz">Vizcaya</option>
-          <option value="ponte">Pontevedra</option>
-        </select>
+        <Cascader
+          name="location"
+          options={geoStates}
+          placeholder={'Seleccione localización'}
+          onChange={values => handleLocCascader(values)}
+          expandTrigger="hover"
+          changeOnSelect
+        />
       </div>
     </div>
   )

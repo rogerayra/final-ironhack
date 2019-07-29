@@ -63,5 +63,6 @@ app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/user', require('./routes/user.routes'))
 app.use('/api/customer', require('./routes/customer.routes'))
 app.use('/api/visit', require('./routes/visit.routes'))
+app.use('/api/state', require('./routes/geoarea.routes'))
 
 module.exports = app

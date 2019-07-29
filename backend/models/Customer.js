@@ -12,6 +12,18 @@ customerSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
+    country: {
+      type: Schema.Types.ObjectId,
+      ref: 'GeoArea'
+    },
+    state: {
+      type: Schema.Types.ObjectId,
+      ref: 'GeoArea'
+    },
+    province: {
+      type: Schema.Types.ObjectId,
+      ref: 'GeoArea'
+    },
     location: {
       type: {
         type: String,

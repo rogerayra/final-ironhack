@@ -11,14 +11,41 @@ function useForm() {
     }))
   }
 
-  const handleCascader = (value, field) => {
+  const handleCascader = (values, field) => {
     setForm(prevState => ({
       ...prevState,
-      [field]: value[0]
+      [field]: values[0]
     }))
   }
 
-  return [form, handleInput, handleCascader]
+  const handleLocCascader = values => {
+    let loc
+    if (values && values.length > 0) {
+      const [field, value] = values[values.length - 1].split('-')
+      loc = { [field]: value }
+    } else loc = {}
+
+    setForm(prevState => ({
+      ...prevState,
+      loc
+    }))
+  }
+
+  const handleDateRange = values => {
+    let dates
+    if (values && values.length === 2) {
+      dates = {
+        start: values[0],
+        end: values[1]
+      }
+    } else dates = {}
+    setForm(prevState => ({
+      ...prevState,
+      dates
+    }))
+  }
+
+  return [form, handleInput, handleCascader, handleLocCascader, handleDateRange]
 }
 
 export default useForm

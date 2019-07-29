@@ -9,8 +9,9 @@ class UserService {
     })
   }
 
-  getAll() {
-    return this.service.get('/')
+  getAll(query) {
+    if (!query) query = ''
+    return this.service.get(`/${query}`)
   }
 
   getOne(id) {

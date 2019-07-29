@@ -10,43 +10,55 @@ function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
     height: '100%',
     zoom: 5.3
   })
+
   return (
     <div className="map">
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={accessToken}
-        mapStyle="mapbox://styles/rogerayra/cjqil0h9i1n0t2smjfmeb2erj"
+        mapStyle="mapbox://styles/mapbox/streets-v11"
         onViewportChange={viewport => setViewport(viewport)}
         map
       >
         {visits &&
           visits.length > 0 &&
-          visits.map(visit => (
-            <Marker
-              key={visit._id}
-              latitude={visit.customer.location.coordinates[1]}
-              longitude={visit.customer.location.coordinates[0]}
-            >
-              <button className="marker-btn" onClick={e => selectVisit(e, visit)}>
-                <img src="http://cdn.onlinewebfonts.com/svg/img_124250.png" alt={visit.customer.name} />
-              </button>
-            </Marker>
-          ))}
+          visits.map(visit => {
+            if (
+              visit.customer.location &&
+              visit.customer.location.coordinates &&
+              visit.customer.location.coordinates.length === 2
+            )
+              return (
+                <Marker
+                  key={visit._id}
+                  latitude={visit.customer.location.coordinates[1]}
+                  longitude={visit.customer.location.coordinates[0]}
+                >
+                  <button className="marker-btn" onClick={e => selectVisit(e, visit)}>
+                    <img src="http://cdn.onlinewebfonts.com/svg/img_124250.png" alt={visit.customer.name} />
+                  </button>
+                </Marker>
+              )
+            else return ''
+          })}
 
-        {selectedVisit && (
-          <Popup
-            latitude={selectedVisit.customer.location.coordinates[1]}
-            longitude={selectedVisit.customer.location.coordinates[0]}
-            onClose={clearVisitSelection}
-          >
-            <div>
-              <p>{`${selectedVisit.start}-${selectedVisit.end}`}</p>
-              <p>{`${selectedVisit.user.firstname} ${selectedVisit.user.surname} visita ${
-                selectedVisit.customer.name
-              }`}</p>
-            </div>
-          </Popup>
-        )}
+        {selectedVisit &&
+          selectedVisit.customer.location &&
+          selectedVisit.customer.location.coordinates &&
+          selectedVisit.customer.location.coordinates.length === 2 && (
+            <Popup
+              latitude={selectedVisit.customer.location.coordinates[1]}
+              longitude={selectedVisit.customer.location.coordinates[0]}
+              onClose={clearVisitSelection}
+            >
+              <div>
+                <p>{`${selectedVisit.start}-${selectedVisit.end}`}</p>
+                <p>{`${selectedVisit.user.firstname} ${selectedVisit.user.surname} visita ${
+                  selectedVisit.customer.name
+                }`}</p>
+              </div>
+            </Popup>
+          )}
       </ReactMapGL>
     </div>
   )

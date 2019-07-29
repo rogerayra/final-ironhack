@@ -1,56 +1,58 @@
-import React, { useState, useEffect } from 'react'
-import { List, Drawer, Button } from 'antd'
-import CustomerDetail from './CustomerDetail'
+import React, { createRef, useEffect } from 'react'
 
 function CustomerList({ customers, selectCustomer, clearCustomerSelection, selectedCustomer }) {
-  const [visible, setVisible] = useState(false)
+  const refs = customers.reduce((acc, customer) => {
+    acc[customer._id] = createRef()
+    return acc
+  }, {})
+
+  function isVisible(ele) {
+    const { top, bottom } = ele.getBoundingClientRect()
+    const { top: parentTop, bottom: parentBottom } = ele.parentNode.getBoundingClientRect()
+
+    return top > parentTop && bottom < parentBottom
+  }
 
   useEffect(() => {
-    if (selectedCustomer) showDrawer()
-  }, [selectedCustomer])
+    customers.forEach(customer => refs[customer._id].current.classList.remove('selected'))
+    if (selectedCustomer) {
+      if (!isVisible(refs[selectedCustomer._id].current))
+        refs[selectedCustomer._id].current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        })
+      refs[selectedCustomer._id].current.classList.add('selected')
+    }
+  }, [customers, refs, selectedCustomer])
 
-  const showDrawer = () => {
-    setVisible(true)
+  const handleClick = customer => {
+    selectCustomer(null, customer)
   }
 
-  const onClose = () => {
-    setVisible(false)
-  }
   return (
-    <div>
-      <Drawer title="Basic Drawer" placement="right" closable={false} onClose={onClose} visible={visible}>
-        <CustomerDetail customer={selectedCustomer} />
-      </Drawer>
-      <List
-        itemLayout="horizontal"
-        pagination={{
-          onChange: page => {
-            console.log(page)
-          },
-          pageSize: 10
-        }}
-        dataSource={customers}
-        footer={
-          <div>
-            <b>ant design</b> footer part
-          </div>
-        }
-        renderItem={item => (
-          <List.Item
-            actions={[
-              <Button type="link" onClick={() => selectCustomer(null, item)}>
-                detalle
-              </Button>
-            ]}
-          >
-            <List.Item.Meta
-              // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-              title={item.name}
-              // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-            />
-          </List.Item>
-        )}
-      />
+    <div className="list">
+      <h2>{`${customers.length} clientes`}</h2>
+      <ul>
+        {customers.map(customer => {
+          return (
+            <li
+              key={customer._id}
+              ref={refs[customer._id]}
+              className="customer-item"
+              onClick={() => handleClick(customer)}
+            >
+              <div>
+                <b>{customer.name}</b>
+                <span>{customer.sector}</span>
+              </div>
+              <div>
+                <span>Provincia</span>
+                <span>ABC</span>
+              </div>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }

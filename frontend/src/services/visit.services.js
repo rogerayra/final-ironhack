@@ -10,6 +10,7 @@ class VisitService {
   }
 
   getAll(query) {
+    if (!query) query = ''
     return this.service.get(`/${query}`)
   }
 

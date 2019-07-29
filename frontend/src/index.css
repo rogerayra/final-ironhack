@@ -1,3 +1,7 @@
+* {
+  margin: 0;
+  padding: 0;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
@@ -10,9 +14,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+.navbar {
+  width: 100vw;
+  height: 5vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: #367cb2;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  margin: 0 10px;
+}
+
+.popover {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  justify-content: flex-start;
+}
+
+.popover-btn {
+  width: 90%;
+  font-size: 16px;
+  color: #367cb2;
+}
+
 .container {
   width: 100vw;
-  height: 100vh;
+  height: 95vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,11 +55,12 @@ code {
 }
 
 .filters {
-  width: 80%;
+  width: 70%;
+  height: 10vh;
   display: flex;
+  align-self: flex-start;
   align-items: center;
-  justify-content: space-evenly;
-  margin-bottom: 20px;
+  justify-content: flex-start;
 }
 
 .inputs {
@@ -33,20 +69,65 @@ code {
 }
 
 .info {
-  width: 90%;
-  height: 70%;
+  width: 100%;
+  height: 85vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.detail {
-  width: 40%;
+.list {
+  width: 25%;
+  height: 85vh;
 }
 
+.list h2 {
+  height: 5vh;
+  margin: 0;
+}
+
+.list ul {
+  height: 80vh;
+  overflow: scroll;
+  overflow-y: scroll;
+  list-style-type: none;
+}
+
+.list li {
+  width: 90%;
+  height: 9vh;
+  border: rgba(0, 0, 0, 0.1) 1px solid;
+  border-radius: 10px;
+  margin: 0.5vh 5%;
+}
+
+.customer-item {
+  display: flex;
+  width: 80%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.customer-item > * {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected {
+  background: lightcyan;
+  /* transform: scale(1.1); */
+}
+
+.detail {
+  width: 25%;
+  height: 85vh;
+}
 .map {
-  width: 60%;
-  height: 100%;
+  width: 50%;
+  height: 85vh;
 }
 
 .marker-btn {

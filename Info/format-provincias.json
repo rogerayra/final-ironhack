@@ -1,0 +1,15 @@
+{
+  "datasetid": "provincias-espanolas",
+  "recordid": "92a289b518cfabdd6c32f2447fee7b234c5280a9",
+  "fields": {
+    "provincia": "Teruel",
+    "geo_point_2d": [40.661261961518825, -0.8155322584473851],
+    "texto": "Teruel",
+    "geo_shape": { "type": "Polygon", "coordinates": [Array] },
+    "ccaa": "Aragón",
+    "codigo": "44",
+    "cod_ccaa": "02"
+  },
+  "geometry": { "type": "Point", "coordinates": [-0.8155322584473851, 40.661261961518825] },
+  "record_timestamp": "2016-10-20T03:51:54.996-05:00"
+}

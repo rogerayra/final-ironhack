@@ -15,33 +15,40 @@ function CustomerMap({ customers, selectCustomer, clearCustomerSelection, select
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={accessToken}
-        mapStyle="mapbox://styles/rogerayra/cjqil0h9i1n0t2smjfmeb2erj"
+        mapStyle="mapbox://styles/mapbox/streets-v11"
         onViewportChange={viewport => setViewport(viewport)}
         map
       >
         {customers &&
           customers.length > 0 &&
-          customers.map(customer => (
-            <Marker
-              key={customer._id}
-              latitude={customer.location.coordinates[1]}
-              longitude={customer.location.coordinates[0]}
-            >
-              <button className="marker-btn" onClick={e => selectCustomer(e, customer)}>
-                <img src="http://cdn.onlinewebfonts.com/svg/img_124250.png" alt={customer.name} />
-              </button>
-            </Marker>
-          ))}
+          customers.map(customer => {
+            if (customer.location && customer.location.coordinates && customer.location.coordinates.length === 2)
+              return (
+                <Marker
+                  key={customer._id}
+                  latitude={customer.location.coordinates[1]}
+                  longitude={customer.location.coordinates[0]}
+                >
+                  <button className="marker-btn" onClick={e => selectCustomer(e, customer)}>
+                    <img src="http://cdn.onlinewebfonts.com/svg/img_124250.png" alt={customer.name} />
+                  </button>
+                </Marker>
+              )
+            else return ''
+          })}
 
-        {selectedCustomer && (
-          <Popup
-            latitude={selectedCustomer.location.coordinates[1]}
-            longitude={selectedCustomer.location.coordinates[0]}
-            onClose={clearCustomerSelection}
-          >
-            <div>{selectedCustomer.name}</div>
-          </Popup>
-        )}
+        {selectedCustomer &&
+          selectedCustomer.location &&
+          selectedCustomer.location.coordinates &&
+          selectedCustomer.location.coordinates.length === 2 && (
+            <Popup
+              latitude={selectedCustomer.location.coordinates[1]}
+              longitude={selectedCustomer.location.coordinates[0]}
+              onClose={clearCustomerSelection}
+            >
+              <div>{selectedCustomer.name}</div>
+            </Popup>
+          )}
       </ReactMapGL>
     </div>
   )

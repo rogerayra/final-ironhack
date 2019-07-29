@@ -2,7 +2,12 @@ const User = require('../models/User')
 
 exports.getAllUsers = async (req, res, next) => {
   try {
-    const users = await User.find({})
+    let filter = {}
+    const { role } = req.query
+    if (role) filter = { role }
+
+    const users = await User.find(filter)
+    console.log('users', users)
     res.status(200).json({ users })
   } catch (error) {
     console.log(error)

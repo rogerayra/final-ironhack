@@ -5,20 +5,28 @@ geoAreaSchema = new Schema(
     name: String,
     category: {
       type: String,
-      enum: ['ccaa', 'prov', 'maqComercial']
+      enum: ['country', 'state', 'province']
     },
-    address: String,
-    salesRep: {
-      type: Schema.Types.ObjectId,
-      ref: 'SaleRep'
-    },
+    subareas: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'GeoArea'
+      }
+    ],
     location: {
       type: {
         type: String,
-        enum: ['Polygon']
+        enum: ['Point']
       },
-      coordinates: [[[Number]]]
+      coordinates: [Number]
     }
+    // location: {
+    //   type: {
+    //     type: String,
+    //     enum: ['Polygon']
+    //   },s
+    //   coordinates: [[[Number]]]
+    // }
   },
   {
     versionKey: false,
