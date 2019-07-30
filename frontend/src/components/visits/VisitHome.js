@@ -90,11 +90,10 @@ function VisitHome() {
     setFormVisible(true)
   }
 
-  const createVisit = visitObj => {
-    console.log('create-visitObj', visitObj)
+  const createVisit = form => {
     const visitServices = new VisitServices()
     visitServices
-      .postOne(visitObj)
+      .postOne(form)
       .then(({ data }) => {
         const auxVisits = [...visits]
         auxVisits.push(data.visit)
@@ -104,10 +103,10 @@ function VisitHome() {
     setFormVisible(false)
   }
 
-  const updateVisit = (id, visitObj) => {
+  const updateVisit = (id, form) => {
     const visitServices = new VisitServices()
     visitServices
-      .patchOne(id, visitObj)
+      .patchOne(id, form)
       .then(({ data }) => {
         const auxVisits = [...visits]
         const index = auxVisits.findIndex(v => v._id === data.visit._id)
@@ -135,16 +134,10 @@ function VisitHome() {
       .catch(err => console.error(err))
   }
 
-  const handleFormOk = visitForm => {
-    const visitObj = {
-      start: visitForm.start,
-      end: visitForm.end,
-      user: visitForm.user,
-      customer: visitForm.customer,
-      purpose: visitForm.purpose
-    }
-    if (visitForm.id) updateVisit(visitForm.id, visitObj)
-    else createVisit(visitObj)
+  const handleFormOk = (id, data) => {
+    console.log(id)
+    if (id) updateVisit(id, data)
+    else createVisit(data)
   }
   const handleFormCancel = () => {
     setFormVisible(false)

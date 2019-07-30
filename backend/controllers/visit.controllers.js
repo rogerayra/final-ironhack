@@ -26,8 +26,10 @@ exports.getOneVisit = async (req, res, next) => {
 
 exports.postOneVisit = async (req, res, next) => {
   try {
-    const { start, end, user, customer, purpose } = req.body
-    const visit = Visit.create({ start, end, user, customer, purpose })
+    const { start, end, user, customer, purpose, notes } = req.body
+    const visit = await Visit.create({ start, end, user, customer, purpose, notes })
+    await visit.populate('user').execPopulate()
+    await visit.populate('customer').execPopulate()
     res.status(201).json({ visit })
   } catch (error) {
     console.log(error)
@@ -36,10 +38,21 @@ exports.postOneVisit = async (req, res, next) => {
 }
 
 exports.patchOneVisit = async (req, res, next) => {
+  console.log(req.body)
   try {
+    let update = {}
     const { id } = req.params
-    const { start, end, user, customer, purpose, status } = req.body
-    const visit = await Visit.findByIdAndUpdate(id, { start, end, user, customer, purpose, status }, { new: true })
+    const { start, end, user, customer, purpose, notes } = req.body
+    if (start) update.start = start
+    if (end) update.end = end
+    if (user) update.user = user
+    if (customer) update.customer = customer
+    if (purpose) update.purpose = purpose
+    if (notes) update.notes = notes
+
+    const visit = await Visit.findByIdAndUpdate(id, update, { new: true })
+    await visit.populate('user').execPopulate()
+    await visit.populate('customer').execPopulate()
     res.status(200).json({ visit })
   } catch (error) {
     console.log(error)

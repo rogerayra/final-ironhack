@@ -18,7 +18,8 @@ visitSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Customer'
     },
-    purpose: String,
+    purpose: { type: String, enum: ['Visita de cortesía', 'Presentación oferta'] },
+    notes: String,
     status: {
       type: String,
       enum: ['pending', 'pendingReport', 'cancelled', 'completed'],

@@ -7,7 +7,6 @@ exports.getAllUsers = async (req, res, next) => {
     if (role) filter = { role }
 
     const users = await User.find(filter)
-    console.log('users', users)
     res.status(200).json({ users })
   } catch (error) {
     console.log(error)

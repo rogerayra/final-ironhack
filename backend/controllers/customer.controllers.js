@@ -23,7 +23,6 @@ exports.getOneCustomer = async (req, res, next) => {
 
 exports.postOneCustomer = async (req, res, next) => {
   try {
-    console.log(req.body)
     const { name, sector, address, salesRep, country, state, province, location } = req.body
     const customer = await Customer.create({ name, sector, address, country, state, province })
     res.status(200).json({ customer })
@@ -46,7 +45,6 @@ exports.patchOneCustomer = async (req, res, next) => {
     if (state) update.state = state
     if (province) update.province = province
 
-    console.log('req.body', req.body)
     const customer = await Customer.findByIdAndUpdate(id, update, { new: true })
     res.status(200).json({ customer })
   } catch (error) {

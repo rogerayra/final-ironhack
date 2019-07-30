@@ -3,16 +3,14 @@ import { Modal } from 'antd'
 import useForm from '../../hooks/useForm'
 import SectorSelection from '../SectorSelection'
 import LocationSelection from '../LocationSelection'
+import SalesRepSelection from '../SalesRepSelection'
 
 function CustomerForm({ customer, visible, handleOk, handleCancel }) {
   const [form, handleInput, handleCascader, handleLocCascader] = useForm({ id: customer ? customer._id : undefined })
 
-  console.log('customer', customer)
-  console.log('form', form)
-
   return (
     <Modal
-      title="Editar Cliente"
+      title={`${customer ? 'Editar' : 'Crear'} Cliente`}
       visible={visible}
       onOk={() => handleOk(form)}
       // confirmLoading={confirmLoading}
@@ -26,6 +24,10 @@ function CustomerForm({ customer, visible, handleOk, handleCancel }) {
         <div>
           <label htmlFor="">Sector</label>
           <SectorSelection handleCascader={handleCascader} defaultValue={customer ? [customer.sector] : []} />
+        </div>
+        <div>
+          <label htmlFor="">Comercial</label>
+          <SalesRepSelection handleCascader={handleCascader} defaultValue={customer ? [customer.salesRep] : []} />
         </div>
         <div>
           <label htmlFor="">Dirección</label>

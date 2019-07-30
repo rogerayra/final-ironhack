@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Cascader } from 'antd'
 import UserServices from '../services/user.services'
 
-function SalesRepSelection({ handleCascader }) {
+function SalesRepSelection({ name, handleCascader, defaultValue }) {
   const [salesReps, setSalesReps] = useState([])
 
   useEffect(() => {
@@ -22,11 +22,12 @@ function SalesRepSelection({ handleCascader }) {
 
   return (
     <Cascader
-      name="salesRep"
+      name={name}
       options={salesReps}
       placeholder={'Seleccione comercial'}
-      onChange={values => handleCascader(values, 'salesRep')}
+      onChange={values => handleCascader(values, name)}
       changeOnSelect
+      defaultValue={defaultValue}
     />
   )
 }
