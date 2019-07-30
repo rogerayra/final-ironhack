@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseURL = 'http://localhost:3001/api/auth'
+// const baseURL = 'http://localhost:3001/api/auth'
+const baseURL = 'https://thawing-atoll-50612.herokuapp.com/api/auth'
 
 class AuthService {
   constructor() {

@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseURL = 'http://localhost:3001/api/customer'
+// const baseURL = 'http://localhost:3001/api/customer'
+const baseURL = 'https://thawing-atoll-50612.herokuapp.com/api/customer'
 
 class CustomerService {
   constructor() {
