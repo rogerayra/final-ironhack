@@ -51,7 +51,7 @@ exports.deleteOneVisit = async (req, res, next) => {
   try {
     const { id } = req.params
     const visit = await Visit.findByIdAndDelete(id)
-    res.status(200).json({ user, msg: 'Visit deleted' })
+    res.status(200).json({ visit, msg: 'Visit deleted' })
   } catch (error) {
     console.log(error)
     res.status(500).json({ error })

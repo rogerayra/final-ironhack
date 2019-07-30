@@ -4,6 +4,9 @@ import VisitServices from '../../services/visit.services'
 import VisitFilters from './VisitFilters'
 import VisitMap from './VisitMap'
 import VisitList from './VisitList'
+import VisitDetail from './VisitDetail'
+import VisitSummary from './VisitSummary'
+import VisitForm from './VisitForm'
 import moment from 'moment'
 
 function VisitHome() {
@@ -11,6 +14,8 @@ function VisitHome() {
   const [visitsToShow, setVisitsToShow] = useState([])
   const [selectedVisit, setSelectedVisit] = useState(null)
   const [visitsFilters, handleInput, handleCascader, handleLocCascader, handleDateRange] = useForm()
+  const [formVisible, setFormVisible] = useState(false)
+  const [visitToEdit, setVisitToEdit] = useState()
 
   // Initial load of visits
   useEffect(() => {
@@ -75,9 +80,87 @@ function VisitHome() {
     setSelectedVisit(null)
   }
 
+  const showFormEdit = visit => {
+    setVisitToEdit(visit)
+    setFormVisible(true)
+  }
+
+  const showFormCreate = () => {
+    setVisitToEdit(null)
+    setFormVisible(true)
+  }
+
+  const createVisit = visitObj => {
+    console.log('create-visitObj', visitObj)
+    const visitServices = new VisitServices()
+    visitServices
+      .postOne(visitObj)
+      .then(({ data }) => {
+        const auxVisits = [...visits]
+        auxVisits.push(data.visit)
+        setVisits(auxVisits)
+      })
+      .catch(err => console.error(err))
+    setFormVisible(false)
+  }
+
+  const updateVisit = (id, visitObj) => {
+    const visitServices = new VisitServices()
+    visitServices
+      .patchOne(id, visitObj)
+      .then(({ data }) => {
+        const auxVisits = [...visits]
+        const index = auxVisits.findIndex(v => v._id === data.visit._id)
+        if (index > -1) auxVisits[index] = data.visit
+
+        setVisits(auxVisits)
+        selectVisit(null, data.visit)
+      })
+      .catch(err => console.error(err))
+    setFormVisible(false)
+  }
+
+  const deleteVisit = visit => {
+    const visitServices = new VisitServices()
+    visitServices
+      .deleteOne(visit._id)
+      .then(({ data }) => {
+        const auxVisits = [...visits]
+        const index = auxVisits.findIndex(v => v._id === data.visit._id)
+        if (index > -1) auxVisits.splice(index, 1)
+        clearVisitSelection()
+
+        setVisits(auxVisits)
+      })
+      .catch(err => console.error(err))
+  }
+
+  const handleFormOk = visitForm => {
+    const visitObj = {
+      start: visitForm.start,
+      end: visitForm.end,
+      user: visitForm.user,
+      customer: visitForm.customer,
+      purpose: visitForm.purpose
+    }
+    if (visitForm.id) updateVisit(visitForm.id, visitObj)
+    else createVisit(visitObj)
+  }
+  const handleFormCancel = () => {
+    setFormVisible(false)
+  }
+
   return (
     <div>
       <div className="container">
+        {formVisible && (
+          <VisitForm
+            visit={visitToEdit}
+            visible={formVisible}
+            handleOk={handleFormOk}
+            handleCancel={handleFormCancel}
+          />
+        )}
         <VisitFilters
           handleInput={handleInput}
           handleCascader={handleCascader}
@@ -90,7 +173,12 @@ function VisitHome() {
             selectVisit={selectVisit}
             clearVisitSelection={clearVisitSelection}
             selectedVisit={selectedVisit}
+            createVisit={showFormCreate}
           />
+          <div className="info-detail">
+            <VisitSummary visits={visitsToShow} />
+            <VisitDetail visit={selectedVisit} deleteVisit={deleteVisit} editVisit={showFormEdit} />
+          </div>
           <VisitMap
             visits={visitsToShow}
             selectVisit={selectVisit}

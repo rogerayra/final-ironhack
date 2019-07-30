@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactMapGL, { Marker, Popup } from 'react-map-gl'
+import { Icon } from 'antd'
 
 function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
   const accessToken = 'pk.eyJ1Ijoicm9nZXJheXJhIiwiYSI6ImNqcWgzd2dsMTI2dTQ0NGxicXJiczQ5cXEifQ.XxSlOtI11XLzeQ-QsxlXAg'
@@ -24,6 +25,7 @@ function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
           visits.length > 0 &&
           visits.map(visit => {
             if (
+              visit.customer &&
               visit.customer.location &&
               visit.customer.location.coordinates &&
               visit.customer.location.coordinates.length === 2
@@ -35,7 +37,7 @@ function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
                   longitude={visit.customer.location.coordinates[0]}
                 >
                   <button className="marker-btn" onClick={e => selectVisit(e, visit)}>
-                    <img src="http://cdn.onlinewebfonts.com/svg/img_124250.png" alt={visit.customer.name} />
+                    <Icon type="calendar" style={{ fontSize: '25px', color: 'green' }} />
                   </button>
                 </Marker>
               )
@@ -43,6 +45,7 @@ function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
           })}
 
         {selectedVisit &&
+          selectedVisit.customer &&
           selectedVisit.customer.location &&
           selectedVisit.customer.location.coordinates &&
           selectedVisit.customer.location.coordinates.length === 2 && (

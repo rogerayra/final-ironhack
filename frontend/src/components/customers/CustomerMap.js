@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactMapGL, { Marker, Popup } from 'react-map-gl'
+import { Icon } from 'antd'
 
 function CustomerMap({ customers, selectCustomer, clearCustomerSelection, selectedCustomer }) {
   const accessToken = 'pk.eyJ1Ijoicm9nZXJheXJhIiwiYSI6ImNqcWgzd2dsMTI2dTQ0NGxicXJiczQ5cXEifQ.XxSlOtI11XLzeQ-QsxlXAg'
@@ -30,7 +31,7 @@ function CustomerMap({ customers, selectCustomer, clearCustomerSelection, select
                   longitude={customer.location.coordinates[0]}
                 >
                   <button className="marker-btn" onClick={e => selectCustomer(e, customer)}>
-                    <img src="http://cdn.onlinewebfonts.com/svg/img_124250.png" alt={customer.name} />
+                    <Icon type="environment" style={{ fontSize: '25px', color: 'green' }} theme="filled" />
                   </button>
                 </Marker>
               )

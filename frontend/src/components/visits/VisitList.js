@@ -1,8 +1,9 @@
 import React, { createRef, useEffect } from 'react'
+import { Icon } from 'antd'
 import moment from 'moment'
 moment.locale('es')
 
-function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
+function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit, createVisit }) {
   const refs = visits.reduce((acc, customer) => {
     acc[customer._id] = createRef()
     return acc
@@ -33,7 +34,9 @@ function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit }) 
 
   return (
     <div className="list">
-      <h2>{`${visits.length} visitas`}</h2>
+      <h2>
+        Visitas <Icon onClick={createVisit} type="plus-square" style={{ fontSize: '25px', color: 'blue' }} />
+      </h2>
       <ul>
         {visits.map(visit => {
           const start = moment(visit.start)
@@ -45,8 +48,8 @@ function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit }) 
                 <span>{`${start.fromNow()}`}</span>
               </div>
               <div>
-                <span>{`${visit.customer.name}`}</span>
-                <span>{`${visit.user.firstname} ${visit.user.surname}`}</span>
+                <span>{visit.customer ? `${visit.customer.name}` : 'Sin cliente'}</span>
+                <span>{visit.user ? `${visit.user.firstname} ${visit.user.surname}` : 'Sin comercial'}</span>
               </div>
             </li>
           )

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-function useForm() {
-  const [form, setForm] = useState({})
+function useForm(initial) {
+  if (!initial) initial = {}
+  const [form, setForm] = useState(initial)
 
   const handleInput = e => {
     e.persist()
@@ -18,7 +19,12 @@ function useForm() {
     }))
   }
 
-  const handleLocCascader = values => {
+  const handleLocCascader = (values, multiple) => {
+    if (multiple) multipleSelection(values)
+    else singleSelection(values)
+  }
+
+  const singleSelection = values => {
     let loc
     if (values && values.length > 0) {
       const [field, value] = values[values.length - 1].split('-')
@@ -29,6 +35,19 @@ function useForm() {
       ...prevState,
       loc
     }))
+  }
+
+  const multipleSelection = values => {
+    let loc
+    if (values && values.length > 0) {
+      const [field, value] = values[values.length - 1].split('-')
+      loc = { ...form.loc, [field]: value }
+    }
+
+    setForm({
+      ...form,
+      loc
+    })
   }
 
   const handleDateRange = values => {

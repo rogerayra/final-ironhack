@@ -121,10 +121,20 @@ code {
   /* transform: scale(1.1); */
 }
 
-.detail {
+.info-detail {
   width: 25%;
   height: 85vh;
 }
+
+.summary {
+  width: 100%;
+  height: 35vh;
+}
+.detail {
+  width: 100%;
+  height: 50vh;
+}
+
 .map {
   width: 50%;
   height: 85vh;

@@ -1,6 +1,7 @@
 import React, { createRef, useEffect } from 'react'
+import { Icon } from 'antd'
 
-function CustomerList({ customers, selectCustomer, clearCustomerSelection, selectedCustomer }) {
+function CustomerList({ customers, selectCustomer, clearCustomerSelection, selectedCustomer, createCustomer }) {
   const refs = customers.reduce((acc, customer) => {
     acc[customer._id] = createRef()
     return acc
@@ -31,7 +32,9 @@ function CustomerList({ customers, selectCustomer, clearCustomerSelection, selec
 
   return (
     <div className="list">
-      <h2>{`${customers.length} clientes`}</h2>
+      <h2>
+        Clientes <Icon onClick={createCustomer} type="plus-square" style={{ fontSize: '25px', color: 'blue' }} />
+      </h2>
       <ul>
         {customers.map(customer => {
           return (
