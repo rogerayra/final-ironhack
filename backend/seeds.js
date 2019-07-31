@@ -44,11 +44,6 @@ async function load() {
     )
 
     let testProvs = provinces.map(prov => {
-      console.log(
-        prov.fields.geo_point_2d && prov.fields.geo_point_2d.length === 2
-          ? [prov.fields.geo_point_2d[1], prov.fields.geo_point_2d[0]]
-          : prov.fields.provincia
-      )
       return {
         name: prov.fields.provincia,
         category: 'province',
@@ -74,24 +69,37 @@ async function load() {
       {
         firstname: `Roger`,
         surname: `Ayra`,
-        email: `roger@p.p`,
+        email: `roger@ironhack.com`,
         role: 'ADMIN'
       },
       '1234'
     )
 
+    const names = [
+      ['Armando', 'Márquez'],
+      ['Alejandro', 'Bernal'],
+      ['Jorge', 'Martínez'],
+      ['Humberto', 'Barajas'],
+      ['Edgar', 'Herrera'],
+      ['Dagoberto', 'Rodríguez'],
+      ['Eric', 'Settles'],
+      ['Sofía', 'de la Cueva'],
+      ['Mariana', 'Gamiño'],
+      ['Bryan', 'Mejía']
+    ]
+
     let testUsers = []
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 0; i < names.length; i++) {
       testUsers.push({
-        firstname: `pepe${i}`,
-        surname: `López`,
-        email: `pepe${i}@p.p`,
+        firstname: names[i][0],
+        surname: names[i][1],
+        email: `${names[i][0]}@ironhack.com`,
         role: 'SALESREP'
       })
     }
     const newUsers = await Promise.all(testUsers.map(testUser => User.register(testUser, '1234')))
 
-    const sectors = ['auto', 'aero', 'molde', 'meca', 'ener']
+    const sectors = ['Automóvil', 'Aeronáutica', 'Molde / Matriz', 'Mecanizado General', 'Energía']
     const states = await GeoArea.find({ category: 'state' }).populate('subareas')
     let testCustomers = []
     states.forEach(state => {
@@ -111,7 +119,7 @@ async function load() {
     })
     const newCustomers = await Customer.create(testCustomers)
 
-    const purposes = ['Cortesia', 'Oferta']
+    const purposes = ['Visita de cortesía', 'Presentación oferta']
     const customers = await Customer.find({})
     let testVisits = []
     for (let i = 1; i <= 31; i++) {
@@ -121,7 +129,8 @@ async function load() {
         end: new Date(2019, 6, i, 11),
         user: customer.salesRep,
         customer: customer._id,
-        purpose: purposes[Math.floor(Math.random() * purposes.length)]
+        purpose: purposes[Math.floor(Math.random() * purposes.length)],
+        notes: 'Aerolíneas que contribuyen al cambio climático y se aprovechan de la ola de calor para vender billetes'
       })
 
       customer = customers[Math.floor(Math.random() * customers.length)]
@@ -130,7 +139,8 @@ async function load() {
         end: new Date(2019, 6, i, 16, 30),
         user: customer.salesRep,
         customer: customer._id,
-        purpose: purposes[Math.floor(Math.random() * purposes.length)]
+        purpose: purposes[Math.floor(Math.random() * purposes.length)],
+        notes: 'Aerolíneas que contribuyen al cambio climático y se aprovechan de la ola de calor para vender billetes'
       })
     }
     const newVisits = await Visit.create(testVisits)

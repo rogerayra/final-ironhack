@@ -47,7 +47,14 @@ function CustomerMap({ customers, selectCustomer, clearCustomerSelection, select
               longitude={selectedCustomer.location.coordinates[0]}
               onClose={clearCustomerSelection}
             >
-              <div>{selectedCustomer.name}</div>
+              <div style={{ fontSize: '12px' }}>
+                <div>
+                  <b>{selectedCustomer.name}</b>
+                </div>
+                <div>
+                  <span>{selectedCustomer.sector}</span>
+                </div>
+              </div>
             </Popup>
           )}
       </ReactMapGL>

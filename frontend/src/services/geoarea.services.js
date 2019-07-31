@@ -1,6 +1,7 @@
 import axios from 'axios'
-// const baseURL = 'http://localhost:3001/api/geoarea'
-const baseURL = 'https://thawing-atoll-50612.herokuapp.com/api/geoarea'
+import apiUrl from './apiUrl'
+
+const baseURL = `${apiUrl}/geoarea`
 
 class GeoAreaService {
   constructor() {

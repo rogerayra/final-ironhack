@@ -1,5 +1,4 @@
 import React, { createRef, useEffect } from 'react'
-import { Icon } from 'antd'
 
 function CustomerList({ customers, selectCustomer, clearCustomerSelection, selectedCustomer, createCustomer }) {
   const refs = customers.reduce((acc, customer) => {
@@ -15,14 +14,14 @@ function CustomerList({ customers, selectCustomer, clearCustomerSelection, selec
   }
 
   useEffect(() => {
-    customers.forEach(customer => refs[customer._id].current.classList.remove('selected'))
+    customers.forEach(customer => refs[customer._id].current.classList.remove('selected-customer'))
     if (selectedCustomer) {
       if (!isVisible(refs[selectedCustomer._id].current))
         refs[selectedCustomer._id].current.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
         })
-      refs[selectedCustomer._id].current.classList.add('selected')
+      refs[selectedCustomer._id].current.classList.add('selected-customer')
     }
   }, [customers, refs, selectedCustomer])
 
@@ -32,9 +31,7 @@ function CustomerList({ customers, selectCustomer, clearCustomerSelection, selec
 
   return (
     <div className="list">
-      <h2>
-        Clientes <Icon onClick={createCustomer} type="plus-square" style={{ fontSize: '25px', color: 'blue' }} />
-      </h2>
+      <h1>Clientes</h1>
       <ul>
         {customers.map(customer => {
           return (
@@ -45,12 +42,11 @@ function CustomerList({ customers, selectCustomer, clearCustomerSelection, selec
               onClick={() => handleClick(customer)}
             >
               <div>
-                <b>{customer.name}</b>
-                <span>{customer.sector}</span>
+                <b style={{ marginLeft: '10px' }}>{customer.name}</b>
               </div>
-              <div>
-                <span>Provincia</span>
-                <span>ABC</span>
+              <div style={{ display: 'flex', justifyContent: 'space_between' }}>
+                <span style={{ marginLeft: '10px' }}>{customer.sector}</span>
+                <span style={{ marginRight: '10px' }}>{customer.province.name}</span>
               </div>
             </li>
           )

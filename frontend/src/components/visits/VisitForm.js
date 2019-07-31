@@ -57,6 +57,7 @@ function VisitForm({ visit, visible, handleOk, handleCancel }) {
       onOk={() => formatData()}
       // confirmLoading={confirmLoading}
       onCancel={handleCancel}
+      okButtonProps={{ style: { backgroundColor: 'purple', color: 'white' } }}
     >
       <div>
         <div>

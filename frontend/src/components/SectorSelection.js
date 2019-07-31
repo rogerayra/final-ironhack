@@ -4,23 +4,23 @@ import { Cascader } from 'antd'
 export default function SectorSelection({ handleCascader, defaultValue }) {
   const sectorOptions = [
     {
-      value: 'auto',
+      value: 'Automóvil',
       label: 'Automóvil'
     },
     {
-      value: 'aero',
+      value: 'Aeronáutica',
       label: 'Aeronáutica'
     },
     {
-      value: 'molde',
+      value: 'Molde / Matriz',
       label: 'Molde / Matriz'
     },
     {
-      value: 'meca',
+      value: 'Mecanizado General',
       label: 'Mecanizado General'
     },
     {
-      value: 'ener',
+      value: 'Energía',
       label: 'Energía'
     }
   ]

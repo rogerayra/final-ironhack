@@ -1,6 +1,7 @@
 import axios from 'axios'
-// const baseURL = 'http://localhost:3001/api/user'
-const baseURL = 'https://thawing-atoll-50612.herokuapp.com/api/user'
+import apiUrl from './apiUrl'
+
+const baseURL = `${apiUrl}/user`
 
 class UserService {
   constructor() {

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import ReactMapGL, { Marker, Popup } from 'react-map-gl'
 import { Icon } from 'antd'
+import moment from 'moment'
+moment.locale('es')
 
 function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
   const accessToken = 'pk.eyJ1Ijoicm9nZXJheXJhIiwiYSI6ImNqcWgzd2dsMTI2dTQ0NGxicXJiczQ5cXEifQ.XxSlOtI11XLzeQ-QsxlXAg'
@@ -37,7 +39,7 @@ function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
                   longitude={visit.customer.location.coordinates[0]}
                 >
                   <button className="marker-btn" onClick={e => selectVisit(e, visit)}>
-                    <Icon type="calendar" style={{ fontSize: '25px', color: 'green' }} />
+                    <Icon type="calendar" style={{ fontSize: '25px', color: 'purple' }} />
                   </button>
                 </Marker>
               )
@@ -55,10 +57,19 @@ function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
               onClose={clearVisitSelection}
             >
               <div>
-                <p>{`${selectedVisit.start}-${selectedVisit.end}`}</p>
-                <p>{`${selectedVisit.user.firstname} ${selectedVisit.user.surname} visita ${
-                  selectedVisit.customer.name
-                }`}</p>
+                <div>
+                  <b>{`${moment(selectedVisit.start).format('DD/MM/YY')}  ${moment(selectedVisit.start).format(
+                    'HH:mm'
+                  )}-${moment(selectedVisit.end).format('HH:mm')}`}</b>
+                </div>
+                <div>
+                  <span>{selectedVisit.customer ? `${selectedVisit.customer.name}` : 'Sin cliente'}</span>
+                  <span>
+                    {selectedVisit.user
+                      ? ` (${selectedVisit.user.firstname[0]}. ${selectedVisit.user.surname})`
+                      : ' (Sin comercial)'}
+                  </span>
+                </div>
               </div>
             </Popup>
           )}

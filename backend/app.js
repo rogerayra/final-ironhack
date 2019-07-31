@@ -10,6 +10,8 @@ const logger = require('morgan')
 const path = require('path')
 const cors = require('cors')
 const passport = require('./config/Passport')
+const { verifyToken } = require('./config/jwt')
+const checkAdmin = require('./middlewares/checkAdmin')
 
 mongoose
   .connect(process.env.DB, { useNewUrlParser: true })
@@ -28,7 +30,11 @@ const app = express()
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.URIFRONTEND]
+    origin: [
+      'http://localhost:3000',
+      'http://cocky-turing-197682.netlify.com',
+      'https://cocky-turing-197682.netlify.com'
+    ]
   })
 )
 
@@ -60,9 +66,11 @@ app.locals.title = 'Express - Generated with IronGenerator'
 
 app.use('/', require('./routes/index'))
 app.use('/api/auth', require('./routes/auth.routes'))
-app.use('/api/user', require('./routes/user.routes'))
-app.use('/api/customer', require('./routes/customer.routes'))
-app.use('/api/visit', require('./routes/visit.routes'))
-app.use('/api/geoarea', require('./routes/geoarea.routes'))
+app.use('/api/user', verifyToken, checkAdmin, require('./routes/user.routes'))
+app.use('/api/customer', verifyToken, require('./routes/customer.routes'))
+app.use('/api/visit', verifyToken, require('./routes/visit.routes'))
+app.use('/api/geoarea', verifyToken, require('./routes/geoarea.routes'))
+
+// app.listen(process.env.PORT || 3000, () => console.log('port' + process.env.PORT))
 
 module.exports = app

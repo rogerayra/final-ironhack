@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { MyContext } from '../../context'
 import moment from 'moment'
 import { Input, DatePicker } from 'antd'
 import SalesRepSelection from '../SalesRepSelection'
@@ -7,6 +8,7 @@ import SectorSelection from '../SectorSelection'
 moment.locale('es')
 
 function VisitFilters({ handleInput, handleCascader, handleLocCascader, handleDateRange }) {
+  const context = useContext(MyContext)
   return (
     <div className="filters">
       <div className="inputs">
@@ -21,9 +23,13 @@ function VisitFilters({ handleInput, handleCascader, handleLocCascader, handleDa
           format={'DD/MM/YY'}
         />
       </div>
-      <div className="inputs">
-        <SalesRepSelection handleCascader={handleCascader} />
-      </div>
+      {context.state.user.role !== 'SALESREP' ? (
+        <div className="inputs">
+          <SalesRepSelection handleCascader={handleCascader} name={'salesRep'} />
+        </div>
+      ) : (
+        ''
+      )}
       <div className="inputs">
         <Input type="text" name="customerName" placeholder="Buscar" onChange={handleInput} />
       </div>

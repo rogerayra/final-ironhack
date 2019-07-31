@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import useForm from '../../hooks/useForm'
 import UserService from '../../services/user.services'
 import UserFilters from './UserFilters'
 import UserList from './UserList'
 import UserDetail from './UserDetail'
+import { MyContext } from '../../context'
 
-function UserHome() {
+function UserHome({ history }) {
+  const context = useContext(MyContext)
+  if (!context.state.isLogged || context.state.user.role !== 'ADMIN') history.push('/login')
+
   const [users, setUsers] = useState([])
   const [usersToShow, setUsersToShow] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)

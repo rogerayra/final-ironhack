@@ -1,8 +1,15 @@
 const Customer = require('../models/Customer')
 
 exports.getAllCustomers = async (req, res, next) => {
+  console.log(req.user)
   try {
-    const customers = await Customer.find({})
+    const filter = {}
+    if (req.user.role === 'SALESREP') filter.salesRep = req.user._id
+    const customers = await Customer.find(filter)
+      .populate('salesRep')
+      .populate('country')
+      .populate('state')
+      .populate('province')
     res.status(200).json({ customers })
   } catch (error) {
     console.log(error)

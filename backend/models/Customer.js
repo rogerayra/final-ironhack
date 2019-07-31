@@ -5,7 +5,7 @@ customerSchema = new Schema(
     name: String,
     sector: {
       type: String,
-      enum: ['auto', 'aero', 'molde', 'meca', 'ener']
+      enum: ['Automóvil', 'Aeronáutica', 'Molde / Matriz', 'Mecanizado General', 'Energía']
     },
     address: String,
     salesRep: {

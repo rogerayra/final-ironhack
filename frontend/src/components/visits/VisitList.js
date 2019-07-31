@@ -1,9 +1,8 @@
 import React, { createRef, useEffect } from 'react'
-import { Icon } from 'antd'
 import moment from 'moment'
 moment.locale('es')
 
-function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit, createVisit }) {
+function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
   const refs = visits.reduce((acc, customer) => {
     acc[customer._id] = createRef()
     return acc
@@ -17,14 +16,14 @@ function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit, cr
   }
 
   useEffect(() => {
-    visits.forEach(visit => refs[visit._id].current.classList.remove('selected'))
+    visits.forEach(visit => refs[visit._id].current.classList.remove('selected-visit'))
     if (selectedVisit) {
       if (!isVisible(refs[selectedVisit._id].current))
         refs[selectedVisit._id].current.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
         })
-      refs[selectedVisit._id].current.classList.add('selected')
+      refs[selectedVisit._id].current.classList.add('selected-visit')
     }
   }, [refs, selectedVisit, visits])
 
@@ -34,9 +33,7 @@ function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit, cr
 
   return (
     <div className="list">
-      <h2>
-        Visitas <Icon onClick={createVisit} type="plus-square" style={{ fontSize: '25px', color: 'blue' }} />
-      </h2>
+      <h1>Visitas</h1>
       <ul>
         {visits.map(visit => {
           const start = moment(visit.start)
@@ -44,12 +41,16 @@ function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit, cr
           return (
             <li key={visit._id} ref={refs[visit._id]} className="visit-item" onClick={() => handleClick(visit)}>
               <div>
-                <b>{`${start.format('DD/MM/YYYY')} - ${end.format('DD/MM/YYYY')}`}</b>
-                <span>{`${start.fromNow()}`}</span>
+                <b style={{ marginLeft: '10px' }}>{`${start.format('DD/MM/YY')}  ${start.format('HH:mm')} -${end.format(
+                  'HH:mm'
+                )}`}</b>
+                <span>{` (${start.fromNow()})`}</span>
               </div>
-              <div>
-                <span>{visit.customer ? `${visit.customer.name}` : 'Sin cliente'}</span>
-                <span>{visit.user ? `${visit.user.firstname} ${visit.user.surname}` : 'Sin comercial'}</span>
+              <div style={{ display: 'flex', justifyContent: 'space_between' }}>
+                <span style={{ marginLeft: '10px' }}>{visit.customer ? `${visit.customer.name}` : 'Sin cliente'}</span>
+                <span style={{ marginRight: '10px' }}>
+                  {visit.user ? ` (${visit.user.firstname[0]}. ${visit.user.surname})` : ' (Sin comercial)'}
+                </span>
               </div>
             </li>
           )

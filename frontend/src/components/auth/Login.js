@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useContext } from 'react'
 import AuthService from '../../services/auth.services'
 import useForm from '../../hooks/useForm'
 import { Input, Button } from 'antd'
-function Login(props) {
+import { MyContext } from '../../context'
+function Login({ history }) {
+  const context = useContext(MyContext)
+  if (context.state.isLogged) history.push('/')
+
   const [form, handleInput] = useForm()
   const authService = new AuthService()
-
-  useEffect(() => {
-    const loggedUser = localStorage.getItem('loggedUser')
-    if (loggedUser) return props.history.push('/customers')
-  }, [props.history])
 
   const handleLogin = () => {
     authService
       .login(form)
       .then(response => {
-        console.log(response)
         localStorage.setItem('loggedUser', JSON.stringify(response.data.user))
-        props.history.push('/customers')
+        context.setUser(response.data.user)
+        console.log('user', context.state.user)
+        history.push('/')
       })
       .catch(err => {
         console.log(err)
@@ -26,6 +26,7 @@ function Login(props) {
 
   return (
     <div className="container">
+      <h1 style={{ fontSize: '100px' }}>Gestión de Clientes</h1>
       <div>
         <label>Email</label>
         <Input type="email" name="email" id="email" onChange={handleInput} />

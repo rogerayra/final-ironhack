@@ -3,7 +3,9 @@ const Visit = require('../models/Visit')
 exports.getAllVisits = async (req, res, next) => {
   try {
     const { c, u } = req.query
-    const visits = await Visit.find({})
+    const filter = {}
+    if (req.user.role === 'SALESREP') filter.user = req.user._id
+    const visits = await Visit.find(filter)
     if (c) await Promise.all(visits.map(visit => visit.populate('customer').execPopulate()))
     if (u) await Promise.all(visits.map(visit => visit.populate('user').execPopulate()))
     res.status(200).json({ visits })

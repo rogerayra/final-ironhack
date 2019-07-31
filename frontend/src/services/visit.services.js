@@ -1,6 +1,7 @@
 import axios from 'axios'
-// const baseURL = 'http://localhost:3001/api/visit'
-const baseURL = 'https://thawing-atoll-50612.herokuapp.com/api/visit'
+import apiUrl from './apiUrl'
+
+const baseURL = `${apiUrl}/visit`
 
 class VisitService {
   constructor() {

@@ -15,6 +15,7 @@ function CustomerForm({ customer, visible, handleOk, handleCancel }) {
       onOk={() => handleOk(form)}
       // confirmLoading={confirmLoading}
       onCancel={handleCancel}
+      okButtonProps={{ style: { backgroundColor: 'green', color: 'white' } }}
     >
       <div>
         <div>

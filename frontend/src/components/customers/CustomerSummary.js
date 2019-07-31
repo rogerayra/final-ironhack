@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { MyContext } from '../../context'
+import { Button } from 'antd'
 
-function CustomerSummary({ customers }) {
+function CustomerSummary({ customers, createCustomer }) {
+  const context = useContext(MyContext)
   const [sectors, setSectors] = useState([new Set()])
 
   useEffect(() => {
@@ -11,14 +14,19 @@ function CustomerSummary({ customers }) {
 
   return (
     <div className="summary">
-      <div>
-        <h3>{`${customers.length} clientes`}</h3>
-        <ul>
-          {sectors.map((sector, i) => (
-            <li key={i}>{`${sector}: ${customers.filter(customer => customer.sector === sector).length}`}</li>
-          ))}
-        </ul>
-      </div>
+      <h2>{`${customers.length} clientes`}</h2>
+      <ul>
+        {sectors.map((sector, i) => (
+          <li key={i}>{`${sector}: ${customers.filter(customer => customer.sector === sector).length}`}</li>
+        ))}
+      </ul>
+      {context.state.user.role === 'ADMIN' ? (
+        <Button onClick={createCustomer} style={{ backgroundColor: 'green', color: 'white' }}>
+          Crear cliente
+        </Button>
+      ) : (
+        ''
+      )}
     </div>
   )
 }

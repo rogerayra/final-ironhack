@@ -23,6 +23,11 @@ code {
   background: #367cb2;
 }
 
+.nav-title {
+  justify-self: flex-start;
+  margin-right: auto;
+}
+
 .nav-btn {
   background: transparent;
   border: none;
@@ -79,31 +84,38 @@ code {
 .list {
   width: 25%;
   height: 85vh;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: space-between;
 }
 
-.list h2 {
+.list h1 {
+  width: 80%;
   height: 5vh;
   margin: 0;
+  text-align: center;
 }
 
 .list ul {
-  height: 80vh;
+  width: 100%;
+  height: 75vh;
   overflow: scroll;
   overflow-y: scroll;
   list-style-type: none;
 }
 
 .list li {
-  width: 90%;
+  width: 80%;
   height: 9vh;
   border: rgba(0, 0, 0, 0.1) 1px solid;
-  border-radius: 10px;
+  border-radius: 4px;
   margin: 0.5vh 5%;
 }
 
 .customer-item {
   display: flex;
-  width: 80%;
+
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -111,14 +123,20 @@ code {
 
 .customer-item > * {
   display: flex;
+  /* flex-direction: column; */
   width: 100%;
   justify-content: space-between;
   align-items: center;
 }
 
-.selected {
-  background: lightcyan;
-  /* transform: scale(1.1); */
+.selected-customer {
+  background: green;
+  color: white;
+}
+
+.selected-visit {
+  background: purple;
+  color: white;
 }
 
 .info-detail {
@@ -129,7 +147,16 @@ code {
 .summary {
   width: 100%;
   height: 35vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
+
+.summary ul {
+  list-style: none;
+}
+
 .detail {
   width: 100%;
   height: 50vh;

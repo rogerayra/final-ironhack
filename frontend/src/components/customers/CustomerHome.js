@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import useForm from '../../hooks/useForm'
 import CustomerServices from '../../services/customer.services'
 import CustomerFilters from './CustomerFilters'
@@ -7,8 +7,12 @@ import CustomerList from './CustomerList'
 import CustomerDetail from './CustomerDetail'
 import CustomerSummary from './CustomerSummary'
 import CustomerForm from './CustomerForm'
+import { MyContext } from '../../context'
 
-function CustomerHome() {
+function CustomerHome({ history }) {
+  const context = useContext(MyContext)
+  if (!context.state.isLogged) history.push('/')
+
   const [customers, setCustomers] = useState([])
   const [customersToShow, setCustomersToShow] = useState([])
   const [selectedCustomer, setSelectedCustomer] = useState(null)
@@ -49,9 +53,11 @@ function CustomerHome() {
     //Filter by location
     if (newCustomersToShow && customerFilters && customerFilters.loc) {
       if (customerFilters.loc.state)
-        newCustomersToShow = newCustomersToShow.filter(customer => customer.state === customerFilters.loc.state)
+        newCustomersToShow = newCustomersToShow.filter(customer => customer.state._id === customerFilters.loc.state)
       else if (customerFilters.loc.province)
-        newCustomersToShow = newCustomersToShow.filter(customer => customer.province === customerFilters.loc.province)
+        newCustomersToShow = newCustomersToShow.filter(
+          customer => customer.province._id === customerFilters.loc.province
+        )
     }
     setCustomersToShow(newCustomersToShow)
   }, [customerFilters, customers])
@@ -157,10 +163,9 @@ function CustomerHome() {
           selectCustomer={selectCustomer}
           clearCustomerSelection={clearCustomerSelection}
           selectedCustomer={selectedCustomer}
-          createCustomer={showFormCreate}
         />
         <div className="info-detail">
-          <CustomerSummary customers={customersToShow} />
+          <CustomerSummary customers={customersToShow} createCustomer={showFormCreate} />
           <CustomerDetail customer={selectedCustomer} deleteCustomer={deleteCustomer} editCustomer={showFormEdit} />
         </div>
         <CustomerMap

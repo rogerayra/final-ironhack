@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import useForm from '../../hooks/useForm'
 import VisitServices from '../../services/visit.services'
 import VisitFilters from './VisitFilters'
@@ -8,8 +8,12 @@ import VisitDetail from './VisitDetail'
 import VisitSummary from './VisitSummary'
 import VisitForm from './VisitForm'
 import moment from 'moment'
+import { MyContext } from '../../context'
 
-function VisitHome() {
+function VisitHome({ history }) {
+  const context = useContext(MyContext)
+  if (!context.state.isLogged) history.push('/')
+
   const [visits, setVisits] = useState([])
   const [visitsToShow, setVisitsToShow] = useState([])
   const [selectedVisit, setSelectedVisit] = useState(null)
@@ -166,10 +170,9 @@ function VisitHome() {
             selectVisit={selectVisit}
             clearVisitSelection={clearVisitSelection}
             selectedVisit={selectedVisit}
-            createVisit={showFormCreate}
           />
           <div className="info-detail">
-            <VisitSummary visits={visitsToShow} />
+            <VisitSummary visits={visitsToShow} createVisit={showFormCreate} />
             <VisitDetail visit={selectedVisit} deleteVisit={deleteVisit} editVisit={showFormEdit} />
           </div>
           <VisitMap
