@@ -17,12 +17,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "postbuild": "react-snap",
+    "postbuild": "echo '/* /index.html 200'>./build/_redirects",
     "eject": "react-scripts eject"
-  },
-  "react-snap": {
-    "inlinecss": true,
-    "skipThirdPartyRequest": true
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -17,9 +17,7 @@ function VisitSummary({ visits, createVisit }) {
     if (context.state.user.role !== 'SALESREP') {
       const auxSalesReps = new Set()
       if (visits)
-        visits.forEach(visit =>
-          visit.user ? auxSalesReps.add(`${visit.user.firstname[0]}. ${visit.user.surname}`) : ''
-        )
+        visits.forEach(visit => (visit.user ? auxSalesReps.add(`${visit.user.firstname} ${visit.user.surname}`) : ''))
       setSalesReps(Array.from(auxSalesReps))
     }
   }, [context.state.user.role, visits])
@@ -39,7 +37,7 @@ function VisitSummary({ visits, createVisit }) {
           <ul>
             {salesReps.map((salesRep, i) => (
               <li key={i}>{`${salesRep}: ${
-                visits.filter(visit => visit.user && `${visit.user.firstname[0]}. ${visit.user.surname}` === salesRep)
+                visits.filter(visit => visit.user && `${visit.user.firstname} ${visit.user.surname}` === salesRep)
                   .length
               }`}</li>
             ))}
@@ -48,7 +46,7 @@ function VisitSummary({ visits, createVisit }) {
           ''
         )}
         {context.state.user.role === 'SALESREP' ? (
-          <Button onClick={createVisit} style={{ backgroundColor: 'purple', color: 'white' }}>
+          <Button onClick={createVisit} style={{ backgroundColor: 'rgba(128, 0, 128, 0.7)', color: 'white' }}>
             Crear visita
           </Button>
         ) : (

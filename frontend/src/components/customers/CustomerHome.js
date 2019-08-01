@@ -80,11 +80,10 @@ function CustomerHome({ history }) {
     setFormVisible(true)
   }
 
-  const createCustomer = customerObj => {
-    console.log('create-customerObj', customerObj)
+  const createCustomer = form => {
     const customerServices = new CustomerServices()
     customerServices
-      .postOne(customerObj)
+      .postOne(form)
       .then(({ data }) => {
         const auxCustomers = [...customers]
         auxCustomers.push(data.customer)
@@ -94,17 +93,16 @@ function CustomerHome({ history }) {
     setFormVisible(false)
   }
 
-  const updateCustomer = (id, customerObj) => {
+  const updateCustomer = (id, form) => {
     const customerServices = new CustomerServices()
     customerServices
-      .patchOne(id, customerObj)
+      .patchOne(id, form)
       .then(({ data }) => {
         const auxCustomers = [...customers]
         const index = auxCustomers.findIndex(c => c._id === data.customer._id)
         if (index > -1) auxCustomers[index] = data.customer
 
         setCustomers(auxCustomers)
-        selectCustomer(null, data.customer)
       })
       .catch(err => console.error(err))
     setFormVisible(false)
@@ -125,19 +123,11 @@ function CustomerHome({ history }) {
       .catch(err => console.error(err))
   }
 
-  const handleFormOk = customerForm => {
-    const customerObj = {
-      name: customerForm.name,
-      sector: customerForm.sector,
-      address: customerForm.address,
-      salesRep: customerForm.salesRep,
-      country: customerForm.loc ? customerForm.loc.country : undefined,
-      state: customerForm.loc ? customerForm.loc.state : undefined,
-      province: customerForm.loc ? customerForm.loc.province : undefined
-    }
-    if (customerForm.id) updateCustomer(customerForm.id, customerObj)
-    else createCustomer(customerObj)
+  const handleFormOk = (id, data) => {
+    if (id) updateCustomer(id, data)
+    else createCustomer(data)
   }
+
   const handleFormCancel = () => {
     setFormVisible(false)
   }

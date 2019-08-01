@@ -1,62 +1,37 @@
 import React from 'react'
-import useForm from '../../hooks/useForm'
-import UserService from '../../services/user.services'
-import { Input, Cascader } from 'antd'
+import { Modal, Button } from 'antd'
+const { confirm } = Modal
 
-function UserDetail({ user, history }) {
-  const [form, handleInput, handleCascader] = useForm()
-  const userService = new UserService()
-
-  const handleUpdate = () => {
-    userService
-      .patchOne(user._id, form)
-      .then(response => {
-        console.log(response)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+function UserDetail({ user, editUser, deleteUser }) {
+  const showConfirm = () => {
+    confirm({
+      title: '¿Quiere eliminar este usuario?',
+      onOk() {
+        deleteUser(user)
+      },
+      onCancel() {}
+    })
   }
-  const handleDelete = () => {
-    userService
-      .deleteOne(user._id)
-      .then(response => {
-        console.log(response)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-  console.log('user', user)
-  console.log('form', form)
 
   return (
     <div className="detail">
       {user && (
         <div>
+          <h2>{`${user.firstname} ${user.surname}`}</h2>
           <div>
-            <label>Nombre</label>
-            <Input type="text" name="firstname" id="name" onChange={handleInput} defaultValue={user.firstname} />
+            <small>Email</small>
+            <span>{user.email}</span>
           </div>
           <div>
-            <label>Apellido</label>
-            <Input type="text" name="surname" id="name" onChange={handleInput} defaultValue={user.surname} />
+            <small>Rol</small>
+            <span>{user.role}</span>
           </div>
-          <div>
-            <label>Email</label>
-            <Input type="email" name="email" id="email" onChange={handleInput} defaultValue={user.email} />
-          </div>
-          <div>
-            <label>Rol</label>
-            <Cascader
-              name="role"
-              options={[{ value: 'ADMIN', label: 'Administrador' }, { value: 'SALESREP', label: 'Comercial' }]}
-              onChange={values => handleCascader(values, 'role')}
-              defaultValue={[user.role]}
-            />
-          </div>
-          <button onClick={handleUpdate}>Guardar</button>
-          <button onClick={handleDelete}>Eliminar</button>
+          <Button style={{ backgroundColor: 'rgba(0, 0, 255, 0.7)', color: 'white' }} onClick={() => editUser(user)}>
+            Editar
+          </Button>
+          <Button style={{ backgroundColor: 'rgba(0, 0, 255, 0.7)', color: 'white' }} onClick={showConfirm}>
+            Eliminar
+          </Button>
         </div>
       )}
     </div>

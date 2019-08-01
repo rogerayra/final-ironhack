@@ -21,7 +21,7 @@ function CustomerSummary({ customers, createCustomer }) {
         ))}
       </ul>
       {context.state.user.role === 'ADMIN' ? (
-        <Button onClick={createCustomer} style={{ backgroundColor: 'green', color: 'white' }}>
+        <Button onClick={createCustomer} style={{ backgroundColor: 'rgba(0, 128, 0, 0.7)', color: 'white' }}>
           Crear cliente
         </Button>
       ) : (

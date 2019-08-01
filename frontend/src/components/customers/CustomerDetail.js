@@ -5,6 +5,7 @@ const { confirm } = Modal
 
 function CustomerDetail({ customer, editCustomer, deleteCustomer }) {
   const context = useContext(MyContext)
+
   const showConfirm = () => {
     confirm({
       title: '¿Quiere eliminar este cliente?',
@@ -26,7 +27,7 @@ function CustomerDetail({ customer, editCustomer, deleteCustomer }) {
           </div>
           <div>
             <small>Comercial</small>
-            <span>{`${customer.salesRep.firstname} ${customer.salesRep.surname}`}</span>
+            <span>{customer.salesRep ? `${customer.salesRep.firstname} ${customer.salesRep.surname}` : ''}</span>
           </div>
           <div>
             <small>Dirección</small>
@@ -36,14 +37,17 @@ function CustomerDetail({ customer, editCustomer, deleteCustomer }) {
             <span>{`${customer.province.name}, ${customer.state.name}, ${customer.country.name}`}</span>
           </div>
           {context.state.user.role === 'ADMIN' ? (
-            <Button style={{ backgroundColor: 'green', color: 'white' }} onClick={() => editCustomer(customer)}>
+            <Button
+              style={{ backgroundColor: 'rgba(0, 128, 0, 0.7)', color: 'white' }}
+              onClick={() => editCustomer(customer)}
+            >
               Editar
             </Button>
           ) : (
             ''
           )}
           {context.state.user.role === 'ADMIN' ? (
-            <Button style={{ backgroundColor: 'green', color: 'white' }} onClick={showConfirm}>
+            <Button style={{ backgroundColor: 'rgba(0, 128, 0, 0.7)', color: 'white' }} onClick={showConfirm}>
               Eliminar
             </Button>
           ) : (

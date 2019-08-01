@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Modal, Button } from 'antd'
 import { MyContext } from '../../context'
+import VisitServices from '../../services/visit.services'
 import moment from 'moment'
 const { confirm } = Modal
 
@@ -22,15 +23,29 @@ function VisitDetail({ visit, editVisit, deleteVisit }) {
     end = moment(visit.end)
   }
 
+  const getVisit = () => {
+    const visitServices = new VisitServices()
+    visitServices
+      .getOne(visit._id)
+      .then(({ data }) => {
+        editVisit(data.visit)
+      })
+      .catch(err => console.error(err))
+  }
+
   return (
     <div className="detail">
       {visit && (
         <div>
           <h2>{`${start.format('DD/MM/YY')}  ${start.format('HH:mm')}-${end.format('HH:mm')}`}</h2>
-          <div>
-            <small>Comercial</small>
-            <span>{visit.user ? `${visit.user.firstname} ${visit.user.surname}` : ''}</span>
-          </div>
+          {context.state.user.role === 'ADMIN' ? (
+            <div>
+              <small>Comercial</small>
+              <span>{visit.user ? `${visit.user.firstname} ${visit.user.surname}` : ''}</span>
+            </div>
+          ) : (
+            ''
+          )}
           <div>
             <small>Cliente</small>
             <span>{visit.customer ? visit.customer.name : ''}</span>
@@ -45,14 +60,14 @@ function VisitDetail({ visit, editVisit, deleteVisit }) {
           </div>
 
           {context.state.user.role === 'SALESREP' ? (
-            <Button style={{ backgroundColor: 'purple', color: 'white' }} onClick={() => editVisit(visit)}>
+            <Button style={{ backgroundColor: 'rgba(128, 0, 128, 0.7)', color: 'white' }} onClick={getVisit}>
               Editar
             </Button>
           ) : (
             ''
           )}
           {context.state.user.role === 'SALESREP' ? (
-            <Button style={{ backgroundColor: 'purple', color: 'white' }} onClick={showConfirm}>
+            <Button style={{ backgroundColor: 'rgba(128, 0, 128, 0.7)', color: 'white' }} onClick={showConfirm}>
               Eliminar
             </Button>
           ) : (

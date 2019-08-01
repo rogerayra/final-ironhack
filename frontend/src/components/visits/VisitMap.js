@@ -15,7 +15,7 @@ function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
   })
 
   return (
-    <div className="map">
+    <div className="map" style={{ border: '2px solid rgba(128, 0, 128, 1)', marginRight: '3px', marginBottom: '3px' }}>
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={accessToken}
@@ -39,7 +39,7 @@ function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
                   longitude={visit.customer.location.coordinates[0]}
                 >
                   <button className="marker-btn" onClick={e => selectVisit(e, visit)}>
-                    <Icon type="calendar" style={{ fontSize: '25px', color: 'purple' }} />
+                    <Icon type="calendar" style={{ fontSize: '25px', color: 'rgba(128, 0, 128, 1)' }} />
                   </button>
                 </Marker>
               )
@@ -66,7 +66,7 @@ function VisitMap({ visits, selectVisit, clearVisitSelection, selectedVisit }) {
                   <span>{selectedVisit.customer ? `${selectedVisit.customer.name}` : 'Sin cliente'}</span>
                   <span>
                     {selectedVisit.user
-                      ? ` (${selectedVisit.user.firstname[0]}. ${selectedVisit.user.surname})`
+                      ? ` (${selectedVisit.user.firstname}. ${selectedVisit.user.surname})`
                       : ' (Sin comercial)'}
                   </span>
                 </div>

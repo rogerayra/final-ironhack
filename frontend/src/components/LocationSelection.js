@@ -11,7 +11,6 @@ function LocationSelection({ locType, subareas, handleLocCascader, defaultValue 
       .getAll(locType)
       .then(({ data }) => {
         const auxGeoAreas = data.geoareas.map(geoarea => ({
-          // value: subareas ? `${geoarea.category}-${geoarea._id}` : geoarea._id,
           value: `${geoarea.category}-${geoarea._id}`,
           label: geoarea.name,
           children: subareas

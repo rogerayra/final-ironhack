@@ -49,7 +49,7 @@ function VisitList({ visits, selectVisit, clearVisitSelection, selectedVisit }) 
               <div style={{ display: 'flex', justifyContent: 'space_between' }}>
                 <span style={{ marginLeft: '10px' }}>{visit.customer ? `${visit.customer.name}` : 'Sin cliente'}</span>
                 <span style={{ marginRight: '10px' }}>
-                  {visit.user ? ` (${visit.user.firstname[0]}. ${visit.user.surname})` : ' (Sin comercial)'}
+                  {visit.user ? ` (${visit.user.firstname} ${visit.user.surname})` : ' (Sin comercial)'}
                 </span>
               </div>
             </li>

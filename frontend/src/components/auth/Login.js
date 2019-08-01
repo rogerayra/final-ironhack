@@ -25,7 +25,7 @@ function Login({ history }) {
   }
 
   return (
-    <div className="container">
+    <div className="container login">
       <h1 style={{ fontSize: '100px' }}>Gestión de Clientes</h1>
       <div>
         <label>Email</label>

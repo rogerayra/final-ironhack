@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Modal, Cascader, DatePicker, TimePicker } from 'antd'
+import { MyContext } from '../../context'
 import useForm from '../../hooks/useForm'
-import SalesRepSelection from '../SalesRepSelection'
 import CustomerSelection from '../CustomerSelection'
 import moment from 'moment'
 
 function VisitForm({ visit, visible, handleOk, handleCancel }) {
+  const context = useContext(MyContext)
   const initial = {
     startDate: visit ? moment(visit.start) : moment(),
     startTime: visit ? moment(visit.start) : moment(),
@@ -44,7 +45,8 @@ function VisitForm({ visit, visible, handleOk, handleCancel }) {
     const data = {
       ...form,
       start,
-      end
+      end,
+      user: context.state.user._id
     }
 
     handleOk(visit ? visit._id : undefined, data)
@@ -55,9 +57,8 @@ function VisitForm({ visit, visible, handleOk, handleCancel }) {
       title={`${visit ? 'Editar' : 'Crear'} Visita`}
       visible={visible}
       onOk={() => formatData()}
-      // confirmLoading={confirmLoading}
       onCancel={handleCancel}
-      okButtonProps={{ style: { backgroundColor: 'purple', color: 'white' } }}
+      okButtonProps={{ style: { backgroundColor: 'rgba(128, 0, 128, 0.7)', color: 'white' } }}
     >
       <div>
         <div>
@@ -77,21 +78,12 @@ function VisitForm({ visit, visible, handleOk, handleCancel }) {
         </div>
         <div>
           <label htmlFor="">Fin</label>
-          {/* <DatePicker name="endDate" onChange={value => dateChanged(value, 'endDate')} /> */}
           <TimePicker
             name="endTime"
             minuteStep={15}
             format={'HH:mm'}
             onChange={value => dateChanged(value, 'endTime')}
             defaultValue={visit ? moment(visit.end) : moment()}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Comercial</label>
-          <SalesRepSelection
-            name={'user'}
-            handleCascader={handleCascader}
-            defaultValue={visit ? [visit.user._id] : []}
           />
         </div>
         <div>

@@ -1,12 +1,10 @@
 import axios from 'axios'
 import apiUrl from './apiUrl'
 
-const baseURL = `${apiUrl}/geoarea`
-
 class GeoAreaService {
   constructor() {
     this.service = axios.create({
-      baseURL,
+      baseURL: `${apiUrl}/geoarea`,
       withCredentials: true
     })
   }

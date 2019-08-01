@@ -8,57 +8,74 @@ import SalesRepSelection from '../SalesRepSelection'
 function CustomerForm({ customer, visible, handleOk, handleCancel }) {
   const [form, handleInput, handleCascader, handleLocCascader] = useForm({ id: customer ? customer._id : undefined })
 
+  const formatData = () => {
+    const data = {
+      name: form.name,
+      sector: form.sector,
+      address: form.address,
+      salesRep: form.salesRep,
+      country: form.loc ? form.loc.country : undefined,
+      state: form.loc ? form.loc.state : undefined,
+      province: form.loc ? form.loc.province : undefined
+    }
+
+    handleOk(customer ? customer._id : undefined, data)
+  }
+
   return (
     <Modal
       title={`${customer ? 'Editar' : 'Crear'} Cliente`}
       visible={visible}
-      onOk={() => handleOk(form)}
-      // confirmLoading={confirmLoading}
+      onOk={() => formatData()}
       onCancel={handleCancel}
-      okButtonProps={{ style: { backgroundColor: 'green', color: 'white' } }}
+      okButtonProps={{ style: { backgroundColor: 'rgba(0, 128, 0, 0.7)', color: 'white' } }}
     >
       <div>
         <div>
-          <label htmlFor="">Nombre</label>
+          <label>Nombre</label>
           <input type="text" name="name" onChange={handleInput} defaultValue={customer ? customer.name : ''} />
         </div>
         <div>
-          <label htmlFor="">Sector</label>
+          <label>Sector</label>
           <SectorSelection handleCascader={handleCascader} defaultValue={customer ? [customer.sector] : []} />
         </div>
         <div>
-          <label htmlFor="">Comercial</label>
-          <SalesRepSelection handleCascader={handleCascader} defaultValue={customer ? [customer.salesRep] : []} />
+          <label>Comercial</label>
+          <SalesRepSelection
+            name={'salesRep'}
+            handleCascader={handleCascader}
+            defaultValue={customer ? [customer.salesRep._id] : []}
+          />
         </div>
         <div>
-          <label htmlFor="">Dirección</label>
+          <label>Dirección</label>
           <input type="text" name="address" onChange={handleInput} defaultValue={customer ? customer.address : ''} />
         </div>
         <div>
-          <label htmlFor="">País</label>
+          <label>País</label>
           <LocationSelection
             handleLocCascader={values => handleLocCascader(values, true)}
             locType={'country'}
             subareas={false}
-            defaultValue={customer ? [`country-${customer.country}`] : []}
+            defaultValue={customer ? [`country-${customer.country._id}`] : []}
           />
         </div>
         <div>
-          <label htmlFor="">Comunidad Autónoma</label>
+          <label>Comunidad Autónoma</label>
           <LocationSelection
             handleLocCascader={values => handleLocCascader(values, true)}
             locType={'state'}
             subareas={false}
-            defaultValue={customer ? [`state-${customer.state}`] : []}
+            defaultValue={customer ? [`state-${customer.state._id}`] : []}
           />
         </div>
         <div>
-          <label htmlFor="">Provincia</label>
+          <label>Provincia</label>
           <LocationSelection
             handleLocCascader={values => handleLocCascader(values, true)}
             locType={'province'}
             subareas={false}
-            defaultValue={customer ? [`province-${customer.province}`] : []}
+            defaultValue={customer ? [`province-${customer.province._id}`] : []}
           />
         </div>
       </div>

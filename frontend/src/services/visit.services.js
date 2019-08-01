@@ -1,19 +1,16 @@
 import axios from 'axios'
 import apiUrl from './apiUrl'
 
-const baseURL = `${apiUrl}/visit`
-
 class VisitService {
   constructor() {
     this.service = axios.create({
-      baseURL,
+      baseURL: `${apiUrl}/visit`,
       withCredentials: true
     })
   }
 
-  getAll(query) {
-    if (!query) query = ''
-    return this.service.get(`/${query}`)
+  getAll() {
+    return this.service.get('/')
   }
 
   getOne(id) {

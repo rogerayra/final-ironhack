@@ -12,7 +12,7 @@ function CustomerMap({ customers, selectCustomer, clearCustomerSelection, select
     zoom: 5.3
   })
   return (
-    <div className="map">
+    <div className="map" style={{ border: '2px solid rgba(0, 128, 0, 1)', marginRight: '3px', marginBottom: '3px' }}>
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={accessToken}
@@ -31,7 +31,7 @@ function CustomerMap({ customers, selectCustomer, clearCustomerSelection, select
                   longitude={customer.location.coordinates[0]}
                 >
                   <button className="marker-btn" onClick={e => selectCustomer(e, customer)}>
-                    <Icon type="environment" style={{ fontSize: '25px', color: 'green' }} theme="filled" />
+                    <Icon type="environment" style={{ fontSize: '25px', color: 'rgba(0, 128, 0, 1)' }} theme="filled" />
                   </button>
                 </Marker>
               )

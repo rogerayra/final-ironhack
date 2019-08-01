@@ -1,12 +1,10 @@
 import axios from 'axios'
 import apiUrl from './apiUrl'
 
-const baseURL = `${apiUrl}/customer`
-
 class CustomerService {
   constructor() {
     this.service = axios.create({
-      baseURL,
+      baseURL: `${apiUrl}/customer`,
       withCredentials: true
     })
   }

@@ -25,7 +25,7 @@ function VisitHome({ history }) {
   useEffect(() => {
     const visitServices = new VisitServices()
     visitServices
-      .getAll('?c=1&u=1')
+      .getAll()
       .then(({ data }) => {
         setVisits(prevState => {
           return [...prevState, ...data.visits]
@@ -117,7 +117,6 @@ function VisitHome({ history }) {
         if (index > -1) auxVisits[index] = data.visit
 
         setVisits(auxVisits)
-        selectVisit(null, data.visit)
       })
       .catch(err => console.error(err))
     setFormVisible(false)
@@ -139,10 +138,10 @@ function VisitHome({ history }) {
   }
 
   const handleFormOk = (id, data) => {
-    console.log(id)
     if (id) updateVisit(id, data)
     else createVisit(data)
   }
+
   const handleFormCancel = () => {
     setFormVisible(false)
   }

@@ -1,12 +1,10 @@
 import axios from 'axios'
 import apiUrl from './apiUrl'
 
-const baseURL = `${apiUrl}/auth`
-
 class AuthService {
   constructor() {
     this.service = axios.create({
-      baseURL,
+      baseURL: `${apiUrl}/auth`,
       withCredentials: true
     })
   }
