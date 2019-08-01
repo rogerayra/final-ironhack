@@ -24,7 +24,7 @@ Agente comercial
 - Usuario: eric@ironhack.com
 - Password: 1234
 
-#Cómo funciona
+# Cómo funciona
 
 - Administrador
 
