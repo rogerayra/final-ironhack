@@ -12,7 +12,7 @@ La explotación de estos datos queda para una versión posterior del proyecto.
 
 Para entrar en la aplicación basta con dar click al siguiente enlance e iniciar sesión usando:
 
-[Acceso a la aplicación](https://github.com/rogerayra/final-ironhack)
+[Acceso a la aplicación](https://cocky-turing-197682.netlify.com)
 
 Administrador
 
