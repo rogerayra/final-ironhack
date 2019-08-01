@@ -47,7 +47,6 @@ exports.postOneVisit = async (req, res, next) => {
 }
 
 exports.patchOneVisit = async (req, res, next) => {
-  console.log(req.body)
   try {
     let update = {}
     const { id } = req.params

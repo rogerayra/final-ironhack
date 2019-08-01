@@ -9,17 +9,20 @@ function VisitSummary({ visits, createVisit }) {
   const [salesReps, setSalesReps] = useState([new Set()])
 
   useEffect(() => {
+    let mounted = true
+
     const auxSectors = new Set()
     if (visits)
       visits.forEach(visit => (visit.customer && visit.customer.sector ? auxSectors.add(visit.customer.sector) : ''))
-    setSectors(Array.from(auxSectors))
+    if (mounted) setSectors(Array.from(auxSectors))
 
     if (context.state.user.role !== 'SALESREP') {
       const auxSalesReps = new Set()
       if (visits)
         visits.forEach(visit => (visit.user ? auxSalesReps.add(`${visit.user.firstname} ${visit.user.surname}`) : ''))
-      setSalesReps(Array.from(auxSalesReps))
+      if (mounted) setSalesReps(Array.from(auxSalesReps))
     }
+    return () => (mounted = false)
   }, [context.state.user.role, visits])
 
   return (

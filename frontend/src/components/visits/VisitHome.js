@@ -23,20 +23,24 @@ function VisitHome({ history }) {
 
   // Initial load of visits
   useEffect(() => {
+    let mounted = true
     const visitServices = new VisitServices()
     visitServices
       .getAll()
       .then(({ data }) => {
-        setVisits(prevState => {
-          return [...prevState, ...data.visits]
-        })
+        if (mounted)
+          setVisits(prevState => {
+            return [...prevState, ...data.visits]
+          })
       })
       .catch(err => console.error(err))
+    return () => (mounted = false)
   }, [])
 
   // Change visits to show based on filters
   useEffect(() => {
-    clearVisitSelection()
+    let mounted = true
+    if (mounted) clearVisitSelection()
 
     // All visits
     let newVisitsToShow = visits
@@ -73,7 +77,8 @@ function VisitHome({ history }) {
         newVisitsToShow = newVisitsToShow.filter(visit => visit.customer.province === visitsFilters.loc.province)
     }
 
-    setVisitsToShow(newVisitsToShow)
+    if (mounted) setVisitsToShow(newVisitsToShow)
+    return () => (mounted = false)
   }, [visits, visitsFilters])
 
   const selectVisit = (e, customer) => {

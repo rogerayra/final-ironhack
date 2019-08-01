@@ -21,19 +21,24 @@ function UserHome({ history }) {
 
   // Initial load of users
   useEffect(() => {
+    let mounted = true
     const userServices = new UserServices()
     userServices
       .getAll()
       .then(({ data }) => {
-        setUsers(prevState => {
-          return [...prevState, ...data.users]
-        })
+        if (mounted)
+          setUsers(prevState => {
+            return [...prevState, ...data.users]
+          })
       })
       .catch(err => console.error(err))
+
+    return () => (mounted = false)
   }, [])
 
   // Change users to show based on filters
   useEffect(() => {
+    let mounted = true
     // All users
     let newUsersToShow = users
 
@@ -46,8 +51,8 @@ function UserHome({ history }) {
     // Filter by role
     if (newUsersToShow && userFilters && userFilters.role)
       newUsersToShow = newUsersToShow.filter(user => user.role === userFilters.role)
-
-    setUsersToShow(newUsersToShow)
+    if (mounted) setUsersToShow(newUsersToShow)
+    return () => (mounted = false)
   }, [userFilters, users])
 
   const selectUser = (e, user) => {

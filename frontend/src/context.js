@@ -9,9 +9,6 @@ function MyProvider(props) {
   })
 
   const setUser = user => {
-    // console.log('user', user)
-    // console.log('JSON.parse(localStorage.getItem(loggedUser))', JSON.parse(localStorage.getItem('loggedUser')))
-    // if (!user) user = JSON.parse(localStorage.getItem('loggedUser'))
     setState(prevState => ({
       ...prevState,
       user,

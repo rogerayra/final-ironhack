@@ -7,9 +7,11 @@ function CustomerSummary({ customers, createCustomer }) {
   const [sectors, setSectors] = useState([new Set()])
 
   useEffect(() => {
+    let mounted = true
     const auxSectors = new Set()
     if (customers) customers.forEach(customer => auxSectors.add(customer.sector))
-    setSectors(Array.from(auxSectors))
+    if (mounted) setSectors(Array.from(auxSectors))
+    return () => (mounted = false)
   }, [customers])
 
   return (
@@ -20,7 +22,7 @@ function CustomerSummary({ customers, createCustomer }) {
           <li key={i}>{`${sector}: ${customers.filter(customer => customer.sector === sector).length}`}</li>
         ))}
       </ul>
-      {context.state.user.role === 'ADMIN' ? (
+      {context && context.state.user && context.state.user.role === 'ADMIN' ? (
         <Button onClick={createCustomer} style={{ backgroundColor: 'rgba(0, 128, 0, 0.7)', color: 'white' }}>
           Crear cliente
         </Button>

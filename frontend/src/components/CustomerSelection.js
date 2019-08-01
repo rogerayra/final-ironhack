@@ -6,6 +6,7 @@ function CustomerSelection({ handleCascader, defaultValue }) {
   const [customers, setCustomers] = useState([])
 
   useEffect(() => {
+    let mounted = true
     const customerServices = new CustomerServices()
     customerServices
       .getAll()
@@ -14,10 +15,10 @@ function CustomerSelection({ handleCascader, defaultValue }) {
           value: customer._id,
           label: customer.name
         }))
-
-        setCustomers(auxCustomers)
+        if (mounted) setCustomers(auxCustomers)
       })
       .catch(err => console.error(err))
+    return () => (mounted = false)
   }, [])
 
   return (

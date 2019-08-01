@@ -6,6 +6,7 @@ function LocationSelection({ locType, subareas, handleLocCascader, defaultValue 
   const [geoAreas, setGeoAreas] = useState([])
 
   useEffect(() => {
+    let mounted = true
     const geoAreaServices = new GeoAreaServices()
     geoAreaServices
       .getAll(locType)
@@ -20,10 +21,11 @@ function LocationSelection({ locType, subareas, handleLocCascader, defaultValue 
               }))
             : ''
         }))
-
-        setGeoAreas(auxGeoAreas)
+        if (mounted) setGeoAreas(auxGeoAreas)
       })
       .catch(err => console.error(err))
+
+    return () => (mounted = false)
   }, [locType, subareas])
 
   return (

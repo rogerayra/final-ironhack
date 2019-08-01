@@ -22,20 +22,25 @@ function CustomerHome({ history }) {
 
   // Initial load of customers
   useEffect(() => {
+    let mounted = true
     const customerServices = new CustomerServices()
     customerServices
       .getAll()
       .then(({ data }) => {
-        setCustomers(prevState => {
-          return [...prevState, ...data.customers]
-        })
+        if (mounted)
+          setCustomers(prevState => {
+            return [...prevState, ...data.customers]
+          })
       })
       .catch(err => console.error(err))
+    return () => (mounted = false)
   }, [])
 
   // Change customers to show based on filters
   useEffect(() => {
-    clearCustomerSelection()
+    let mounted = true
+
+    if (mounted) clearCustomerSelection()
 
     // All customers
     let newCustomersToShow = customers
@@ -59,7 +64,8 @@ function CustomerHome({ history }) {
           customer => customer.province._id === customerFilters.loc.province
         )
     }
-    setCustomersToShow(newCustomersToShow)
+    if (mounted) setCustomersToShow(newCustomersToShow)
+    return () => (mounted = false)
   }, [customerFilters, customers])
 
   const selectCustomer = (e, customer) => {

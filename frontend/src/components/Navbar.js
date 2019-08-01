@@ -1,11 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import AuthService from '../services/auth.services'
-import { Popover } from 'antd'
 import { MyContext } from '../context'
+import UserForm from './users/UserForm'
 
 function Navbar({ history }) {
   const context = useContext(MyContext)
+  const [formVisible, setFormVisible] = useState(false)
+
   const handleLogout = () => {
     const authService = new AuthService()
     authService
@@ -18,20 +20,15 @@ function Navbar({ history }) {
       .catch(err => console.log(err))
   }
 
-  const profileContent = (
-    <div className="popover">
-      <button className="nav-btn popover-btn" onClick={() => history.push('/profile')}>
-        Perfil
-      </button>
-      <hr />
-      <button className="nav-btn popover-btn" onClick={handleLogout}>
-        Cerrar sessión
-      </button>
-    </div>
-  )
+  const closeForm = () => {
+    setFormVisible(false)
+  }
 
   return (
     <div className="navbar">
+      {formVisible && (
+        <UserForm user={context.state.user} visible={formVisible} handleOk={closeForm} handleCancel={closeForm} />
+      )}
       <button className="nav-title nav-btn" onClick={() => history.push('/')}>
         Gestión de clientes
       </button>
@@ -48,10 +45,13 @@ function Navbar({ history }) {
       ) : (
         ''
       )}
-
-      <Popover content={profileContent} trigger="hover" placement="bottomRight">
-        <button className="nav-btn">{context.state.user.firstname}</button>
-      </Popover>
+      <button className="nav-btn" onClick={() => setFormVisible(true)}>
+        Perfil
+      </button>
+      <hr />
+      <button className="nav-btn" onClick={handleLogout}>
+        Cerrar sessión
+      </button>
     </div>
   )
 }

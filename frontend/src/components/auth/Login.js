@@ -16,7 +16,6 @@ function Login({ history }) {
       .then(response => {
         localStorage.setItem('loggedUser', JSON.stringify(response.data.user))
         context.setUser(response.data.user)
-        console.log('user', context.state.user)
         history.push('/')
       })
       .catch(err => {

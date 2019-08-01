@@ -12,7 +12,7 @@ function CustomerMap({ customers, selectCustomer, clearCustomerSelection, select
     zoom: 5.3
   })
   return (
-    <div className="map" style={{ border: '2px solid rgba(0, 128, 0, 1)', marginRight: '3px', marginBottom: '3px' }}>
+    <div className="map" style={{ border: '2px solid rgba(0, 128, 0, 1)', marginRight: '10px', marginBottom: '10px' }}>
       <ReactMapGL
         {...viewport}
         mapboxApiAccessToken={accessToken}

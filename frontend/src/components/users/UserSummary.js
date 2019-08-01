@@ -5,9 +5,11 @@ function UserSummary({ users, createUser }) {
   const [roles, setRoles] = useState([new Set()])
 
   useEffect(() => {
+    let mounted = true
     const auxRoles = new Set()
     if (users) users.forEach(user => auxRoles.add(user.role))
-    setRoles(Array.from(auxRoles))
+    if (mounted) setRoles(Array.from(auxRoles))
+    return () => (mounted = false)
   }, [users])
 
   return (

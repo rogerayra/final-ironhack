@@ -6,6 +6,7 @@ function SalesRepSelection({ name, handleCascader, defaultValue }) {
   const [salesReps, setSalesReps] = useState([])
 
   useEffect(() => {
+    let mounted = true
     const userServices = new UserServices()
     userServices
       .getAll(`?role=SALESREP`)
@@ -14,10 +15,11 @@ function SalesRepSelection({ name, handleCascader, defaultValue }) {
           value: user._id,
           label: `${user.firstname} ${user.surname}`
         }))
-
-        setSalesReps(auxSalesReps)
+        if (mounted) setSalesReps(auxSalesReps)
       })
       .catch(err => console.error(err))
+
+    return () => (mounted = false)
   }, [])
 
   return (
